@@ -1,20 +1,22 @@
 class Solution:
     def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
         
-        #build adjacency list for pre-req
+        #Adjaceny list
+        
         prereq = {c:[] for c in range(numCourses)}
         
         for crs, pre in prerequisites:
             prereq[crs].append(pre)
         
-        #A course has three possible states
-        # Already visited - crs has been added to output
-        
-        # visiting - crs not added to output but added to cycle
-        # unvisited - crs not added to output or cycle
+        #A course willl have three possible states 
+        # Already visited == course has been added to the output
+        #visiting - course has not been added to output and added to the cycle
+        #Not visited at all : Course has not aaded to output or cycle
         
         output = []
-        visit , cycle = set() , set()
+        
+        visit , cycle = set(), set()
+        
         def dfs(crs):
             if crs in cycle:
                 return False
@@ -24,6 +26,7 @@ class Solution:
             for pre in prereq[crs]:
                 if not dfs(pre):
                     return False
+            
             cycle.remove(crs)
             visit.add(crs)
             output.append(crs)
